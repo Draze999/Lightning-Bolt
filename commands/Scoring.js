@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const Error = require("./error.js")
 const Stats = require('../Stats/stats.js')
-const IDlist = ['CR','DO','R6','JT','RI','HA','WG','MS','BW','NU','HO','EI','KR','MI','PA','BU','NE','IL','OA','LI','AN','CO','ES','QS']
+const IDlist = ['CR','DO','R6','JT','RI','HA','WG','MS','BW','NU','HO','EI','KR','MI','PA','BU','NE','IL','OA','LI','AN','CO','ES','QS','SU','JC']
 module.exports = class Scoring 
 {
 
@@ -48,6 +48,8 @@ module.exports = class Scoring
         var ControlNames = "Busan\nNépal\nIlios\nOasis\nTour de Lijiang\n Péninsulte Antartique"
         var PushCodes = "CO\nES\nQS"
         var PushNames = "Colosseo\nEspéranca\nNew Queen Street"
+        var FlashCodes = "SU\nJC"
+        var FlashNames = "Suravana\nNew Junk City"
         const CodesEmbed = new Discord.MessageEmbed()
             .setColor('#2050ed')
             .setTitle('ID des Maps')
@@ -64,6 +66,9 @@ module.exports = class Scoring
                 { name: "\u200B", value: "\u200B" },
                 { name: "Push ID", value: PushCodes, inline: true },
                 { name: "Push Maps", value: PushNames, inline: true },
+                { name: "\u200B", value: "\u200B" },
+                { name: "Flashpoint ID", value: FlashCodes, inline: true },
+                { name: "Flashpoint Maps", value: FlashNames, inline: true },
             )
         msg.author.send(CodesEmbed)
     }

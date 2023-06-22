@@ -95,6 +95,22 @@ module.exports = class Stats
                 }
             }
         }
+        if (temp == 0) {
+            for (let index = 0; index < Mappy.maps[4].flashpoint.length; index++) {
+                const Eq = new Map(Mappy.maps[4].flashpoint[index].ID)
+                if (Eq.ID == MapID) {
+                    Mappy.maps[4].flashpoint[index].Played++
+                    temp = 1
+                    if (Won == true)
+                        Mappy.maps[4].flashpoint[index].Won++
+                }
+                if (Eq.ID == "TO" && temp == 1) {
+                    Mappy.maps[4].flashpoint[index].Played++
+                    if (Won == true)
+                        Mappy.maps[4].flashpoint[index].Won++
+                }
+            }
+        }
         return Mappy
     }
 
@@ -130,6 +146,14 @@ module.exports = class Stats
                 const Eq = new Map(Mappy.maps[3].push[index].ID)
                 if (Eq.ID == MapID) {
                     return Mappy.maps[3].push[index].Nom
+                }
+            }
+        }
+        if (temp == 0) {
+            for (let index = 0; index < Mappy.maps[4].flashpoint.length; index++) {
+                const Eq = new Map(Mappy.maps[4].flashpoint[index].ID)
+                if (Eq.ID == MapID) {
+                    return Mappy.maps[4].flashpoint[index].Nom
                 }
             }
         }
@@ -296,6 +320,34 @@ module.exports = class Stats
                 )
                 .setTimestamp()
         msg.channel.send(PushEmbed)
+
+        //-------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------
+
+        var Name = ""
+        var WR = ""
+        var PR = ""
+        for (let index = 0; index < Mappy.maps[4].flashpoint.length; index++) {
+            Name+=Mappy.maps[4].flashpoint[index].Nom +"\n"
+            if (Mappy.maps[4].flashpoint[index].Played == 0)
+                WR +="NO DATA \n"
+            else
+                WR +=((Mappy.maps[4].flashpoint[index].Won / Mappy.maps[4].flashpoint[index].Played)*100).toFixed(2) +"%\n"
+            if (Mappy.maps[4].flashpoint[Mappy.maps[4].flashpoint.length-1].Played == 0)
+                PR +="NO DATA \n"
+            else
+                PR +=((Mappy.maps[4].flashpoint[index].Played / Mappy.maps[4].flashpoint[Mappy.maps[4].flashpoint.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[4].flashpoint[index].Played + ")**\n"
+        }
+        const FlashpointEmbed = new Discord.MessageEmbed()
+                .setColor('#9933ff')
+                .setTitle("__**Statistiques en Flashpoint de la Scarlet Red Lightning**__")
+                .addFields(
+                    { name: 'Map : ', value: Name, inline: true },
+                    { name: 'Winrate : ', value: WR, inline: true },
+                    { name: 'Pickrate : ', value: PR, inline: true },
+                )
+                .setTimestamp()
+        msg.channel.send(FlashpointEmbed)
     }
 
     // ██╗     ██╗███╗   ███╗███████╗     ██████╗ ██████╗ ███████╗███████╗███╗   ██╗
@@ -421,6 +473,34 @@ module.exports = class Stats
                 )
                 .setTimestamp()
         msg.channel.send(PushEmbed)
+
+                //-------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------
+
+        var Name = ""
+        var WR = ""
+        var PR = ""
+        for (let index = 0; index < Mappy.maps[4].flashpoint.length; index++) {
+            Name+=Mappy.maps[4].flashpoint[index].Nom +"\n"
+            if (Mappy.maps[4].flashpoint[index].Played == 0)
+                WR +="NO DATA \n"
+            else
+                WR +=((Mappy.maps[4].flashpoint[index].Won / Mappy.maps[4].flashpoint[index].Played)*100).toFixed(2) +"%\n"
+            if (Mappy.maps[4].flashpoint[Mappy.maps[4].flashpoint.length-1].Played == 0)
+                PR +="NO DATA \n"
+            else
+                PR +=((Mappy.maps[4].flashpoint[index].Played / Mappy.maps[4].flashpoint[Mappy.maps[4].flashpoint.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[4].flashpoint[index].Played + ")**\n"
+        }
+        const FlashpointEmbed = new Discord.MessageEmbed()
+                .setColor('#9933ff')
+                .setTitle("__**Statistiques en Flashpoint de la Lime Green Lightning**__")
+                .addFields(
+                    { name: 'Map : ', value: Name, inline: true },
+                    { name: 'Winrate : ', value: WR, inline: true },
+                    { name: 'Pickrate : ', value: PR, inline: true },
+                )
+                .setTimestamp()
+        msg.channel.send(FlashpointEmbed)
     }
 
     // ███╗   ██╗ █████╗ ██╗   ██╗██╗   ██╗    ██████╗ ██╗     ██╗   ██╗███████╗
@@ -546,5 +626,33 @@ module.exports = class Stats
                 )
                 .setTimestamp()
         msg.channel.send(PushEmbed)
+
+                //-------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------
+
+        var Name = ""
+        var WR = ""
+        var PR = ""
+        for (let index = 0; index < Mappy.maps[4].flashpoint.length; index++) {
+            Name+=Mappy.maps[4].flashpoint[index].Nom +"\n"
+            if (Mappy.maps[4].flashpoint[index].Played == 0)
+                WR +="NO DATA \n"
+            else
+                WR +=((Mappy.maps[4].flashpoint[index].Won / Mappy.maps[4].flashpoint[index].Played)*100).toFixed(2) +"%\n"
+            if (Mappy.maps[4].flashpoint[Mappy.maps[4].flashpoint.length-1].Played == 0)
+                PR +="NO DATA \n"
+            else
+                PR +=((Mappy.maps[4].flashpoint[index].Played / Mappy.maps[4].flashpoint[Mappy.maps[4].flashpoint.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[4].flashpoint[index].Played + ")**\n"
+        }
+        const FlashpointEmbed = new Discord.MessageEmbed()
+                .setColor('#9933ff')
+                .setTitle("__**Statistiques en Flashpoint de la Navy Blue Lightning**__")
+                .addFields(
+                    { name: 'Map : ', value: Name, inline: true },
+                    { name: 'Winrate : ', value: WR, inline: true },
+                    { name: 'Pickrate : ', value: PR, inline: true },
+                )
+                .setTimestamp()
+        msg.channel.send(FlashpointEmbed)
     }
 }

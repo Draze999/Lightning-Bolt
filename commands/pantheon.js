@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const Error = require("./error.js")
+const Logger = require('./logger.js');
 //bf8dff Couleur de dingue
 module.exports = class Pantheon 
 {
@@ -116,6 +117,77 @@ module.exports = class Pantheon
                 { name: "𝑹𝒆𝒔𝒆𝒂𝒖𝒙", value: "\u200B\n> :bird:᲼|᲼[**\[Twitter\]**](https://twitter.com/LightningPrjct)\n> \u200B\n> :hibiscus:᲼|᲼[**\[Instagram\]**](https://www.instagram.com/lightning.prjct/)" },
             )
         msg.channel.send(ResEmbed)
+    }
+
+    /**
+    * @param msg { Discord.Message }
+    * @param bot { Discord.Client }
+    */
+    static CreateSuccess(msg, bot)
+    {
+        var color = '#ed0000'
+        var th = "https://i.postimg.cc/PJpxbh3y/rougegif.gif"
+        if (msg.channel.id == "1100947999577886810") {
+            color = '#000080'
+            th = "https://i.postimg.cc/rmpzm55v/bleugif.gif"
+        }
+        if (msg.channel.id == "1100947952836558848") {
+            color = '#17ff00'
+            th = "https://i.postimg.cc/bJFr2dTd/vertgif.gif"
+        }
+        const ResEmbed = new Discord.MessageEmbed()
+            .setColor(color)
+            .setAuthor('𝑽𝒊𝒄𝒕𝒐𝒓𝒚 𝑯𝒂𝒍𝒍', bot.user.displayAvatarURL())
+            .setThumbnail(th)
+            .addFields(
+                { name: "\u200B", value: "\u200B" },
+            )
+        msg.channel.send(ResEmbed)
+    }
+
+    //"> [04/06/2023] 🏆 1st, Polaris séries [Div2]\n
+
+    /**
+    * @param msg { Discord.Message }
+    */
+    static GetText(msg)
+    {
+        var def = "🏆 1st,"
+        var items = msg.content.split(" ").slice(1)
+        if (items.length <= 1)
+            return ""
+        if (items[0] == "2")
+            def = "🥈 2nd,"
+        if (items[0] == "3")
+            def = "🥉 3rd,"
+        var currentdate = new Date();
+        var dater = ("[" + Logger.formatter(currentdate.getDate()) + "/" + Logger.formatter(currentdate.getMonth() + 1) + "/" + (currentdate.getFullYear()) + "] ")
+        var res = "\n> " + dater + def
+        for (let index = 1; index < items.length; index++)
+            res += " " + (items[index])
+        return res
+    }
+
+    /**
+    * @param msg { Discord.Message }
+    * @param bot { Discord.Client }
+    */
+    static async UpdateSuccess(msg, bot)
+    {
+        var idd = '1115033554901012672'
+        if (msg.channel.id == "1100948020494860369") {
+            idd = '1115016923944599634'
+        }
+        if (msg.channel.id == "1100947999577886810") {
+            idd = '1115016892546039808'
+        }
+        if (msg.channel.id == "1100947952836558848") {
+            idd = '1115016854843445279'
+        }
+        var newmsg = await msg.channel.messages.fetch(idd)
+        const ResEmbed = new Discord.MessageEmbed(newmsg.embeds[0])
+        ResEmbed.fields[0] = { name: ResEmbed.fields[0].name + this.GetText(msg), value: ResEmbed.fields[0].value }
+        newmsg.edit([ResEmbed])
     }
 
     

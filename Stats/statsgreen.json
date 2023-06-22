@@ -15,8 +15,8 @@
           "Won": 0
         },
         {
-          "ID": "R6",
-          "Nom": ":flag_us: Route 66",
+          "ID": "R0",
+          "Nom": ":flag_us: Route 00",
           "Played": 0,
           "Won": 0
         },
@@ -173,6 +173,28 @@
         {
           "ID": "QS",
           "Nom": ":flag_ca: New Queen Street",
+          "Played": 0,
+          "Won": 0
+        },
+        {
+          "ID": "TO",
+          "Nom": ":name_badge: Total",
+          "Played": 0,
+          "Won": 0
+        }
+      ]
+    },
+    {
+      "flashpoint": [
+        {
+          "ID": "SU",
+          "Nom": ":flag_in: Suravasa",
+          "Played": 0,
+          "Won": 0
+        },
+        {
+          "ID": "JC",
+          "Nom": ":flag_au: New Junk City",
           "Played": 0,
           "Won": 0
         },

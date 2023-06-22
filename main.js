@@ -65,6 +65,14 @@ bot.on('message', function (msg) {
                 Scoring.PrintErrorChannel(msg)
         }
 
+        
+        else if (msg.content.startsWith(Prefix + 'up')) {
+            if (msg.author.id != "221330215714947072")
+                msg.author.send("You are not authorized to use this command. Please contact `||DRͥΔZͣEͫ_999||#5158`.")
+            else
+                Pantheon.UpdateSuccess(msg, bot)
+        }
+
         else {
             msg.content = msg.content.toLowerCase()
             // if (msg.content === Prefix + 'navyblue') {
