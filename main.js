@@ -10,6 +10,7 @@ const Logger = require('./commands/logger.js');
 const Scoring = require('./commands/Scoring.js');
 const ProfilePic = require('./commands/profile_pic.js');
 const Pantheon = require('./commands/pantheon.js');
+const ToolBox = require('./commands/toolbox.js');
 disbut(bot)
 const Commands = [];
 const cmdFiles = fs.readdirSync("./slashcommands").filter((file) =>
@@ -55,12 +56,14 @@ bot.on('message', function (msg) {
         // ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
 
         else if ((msg.content.startsWith(Prefix + "sc ")) || (msg.content.startsWith(Prefix + "score "))) {
-            if (msg.channel.id == "1075768946382360616")
-                Scoring.SCPutScore(msg)
-            else if (msg.channel.id == "1075768946382360616")
-                Scoring.NBPutScore(msg)
-            else if (msg.channel.id == "1075768946382360616")
-                Scoring.LGPutScore(msg)
+            if (msg.channel.id == "1157658519047254039")
+                Scoring.PutScore(msg, ToolBox.Teams.Red)
+            // else if (msg.channel.id == "1075768946382360616")
+            //     Scoring.PutScore(msg, Teams.Blue)
+            else if (msg.channel.id == "1170437597143781417")
+                Scoring.PutScore(msg, ToolBox.Teams.RedOAFO)
+            // else if (msg.channel.id == "1182428306432344189") TEST DANS UN CHANNEL RANDOM
+            //     Scoring.PutScore(msg, ToolBox.Teams.Blue)
             else
                 Scoring.PrintErrorChannel(msg)
         }
@@ -117,6 +120,7 @@ bot.on('message', function (msg) {
                         { name: Prefix + 'suggestion <sugg>', value: 'Permet de faire une suggestion pour améliorer le bot' },
                         { name: Prefix + 'dr <pourcentage>', value: 'Renvoie le pourcentage de vie supplémentaire équivalente au pourcentage de DR choisi.' },
                         { name: Prefix + 'stats <-w / -p> <Team Initials>', value: 'Renvoie nos stats de scrims ET tournois en fonction des maps.' },
+                        { name: Prefix + 'up <place> <texte>', value: "Rajoute le score dans le Panthéon d'une équipe" },
                         { name: '\u200B', value: 'Presques toutes les commandes sont réductibles à leur(s) initiale(s).' },
                     )
                     .setTimestamp()

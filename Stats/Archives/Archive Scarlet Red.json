@@ -1,0 +1,210 @@
+{
+    "maps": [
+      {
+        "escort": [
+          {
+            "ID": "CR",
+            "Nom": ":flag_mc: Circuit Royal",
+            "Played": 2,
+            "Won": 1
+          },
+          {
+            "ID": "DO",
+            "Nom": ":flag_mx: Dorado",
+            "Played": 3,
+            "Won": 2
+          },
+          {
+            "ID": "R6",
+            "Nom": ":flag_us: Route 66",
+            "Played": 3,
+            "Won": 1
+          },
+          {
+            "ID": "JT",
+            "Nom": ":flag_au: Junkertown",
+            "Played": 13,
+            "Won": 3
+          },
+          {
+            "ID": "RI",
+            "Nom": ":flag_it: Rialto",
+            "Played": 6,
+            "Won": 4
+          },
+          {
+            "ID": "HA",
+            "Nom": ":flag_cu: Havana",
+            "Played": 4,
+            "Won": 1
+          },
+          {
+            "ID": "WG",
+            "Nom": ":flag_gi: Observatoire Gibraltar",
+            "Played": 4,
+            "Won": 3
+          },
+          {
+            "ID": "MS",
+            "Nom": ":flag_np: Monastère Shambali",
+            "Played": 3,
+            "Won": 3
+          },
+          {
+            "ID": "TO",
+            "Nom": ":name_badge: Total",
+            "Played": 38,
+            "Won": 18
+          }
+        ]
+      },
+      {
+        "hybrid": [
+          {
+            "ID": "BW",
+            "Nom": ":flag_us: Blizzard World",
+            "Played": 4,
+            "Won": 2
+          },
+          {
+            "ID": "NU",
+            "Nom": ":flag_ng: Numbani",
+            "Played": 1,
+            "Won": 1
+          },
+          {
+            "ID": "HO",
+            "Nom": ":flag_us: Hollywood",
+            "Played": 3,
+            "Won": 2
+          },
+          {
+            "ID": "EI",
+            "Nom": ":flag_de: Eichenwalde",
+            "Played": 11,
+            "Won": 6
+          },
+          {
+            "ID": "KR",
+            "Nom": ":flag_gb: King's Row",
+            "Played": 18,
+            "Won": 5
+          },
+          {
+            "ID": "MI",
+            "Nom": ":flag_us: Midtown",
+            "Played": 3,
+            "Won": 2
+          },
+          {
+            "ID": "PA",
+            "Nom": ":flag_br: Paraiso",
+            "Played": 4,
+            "Won": 1
+          },
+          {
+            "ID": "TO",
+            "Nom": ":name_badge: Total",
+            "Played": 44,
+            "Won": 19
+          }
+        ]
+      },
+      {
+        "control": [
+          {
+            "ID": "BU",
+            "Nom": ":flag_kr: Busan",
+            "Played": 5,
+            "Won": 2
+          },
+          {
+            "ID": "NE",
+            "Nom": ":flag_np: Nepal",
+            "Played": 6,
+            "Won": 1
+          },
+          {
+            "ID": "IL",
+            "Nom": ":flag_gr: Ilios",
+            "Played": 9,
+            "Won": 2
+          },
+          {
+            "ID": "OA",
+            "Nom": ":flag_iq: Oasis",
+            "Played": 4,
+            "Won": 3
+          },
+          {
+            "ID": "LI",
+            "Nom": ":flag_cn: Tour de Lijiang",
+            "Played": 15,
+            "Won": 7
+          },
+          {
+            "ID": "AN",
+            "Nom": ":united_nations: Péninsule Antarctique",
+            "Played": 9,
+            "Won": 3
+          },
+          {
+            "ID": "TO",
+            "Nom": ":name_badge: Total",
+            "Played": 48,
+            "Won": 18
+          }
+        ]
+      },
+      {
+        "push": [
+          {
+            "ID": "CO",
+            "Nom": ":flag_it: Colosseo",
+            "Played": 13,
+            "Won": 10
+          },
+          {
+            "ID": "ES",
+            "Nom": ":flag_pt: Esperança",
+            "Played": 4,
+            "Won": 2
+          },
+          {
+            "ID": "QS",
+            "Nom": ":flag_ca: New Queen Street",
+            "Played": 9,
+            "Won": 3
+          },
+          {
+            "ID": "TO",
+            "Nom": ":name_badge: Total",
+            "Played": 26,
+            "Won": 15
+          }
+        ]
+      },
+      {
+        "flashpoint": [
+          {
+            "ID": "SU",
+            "Nom": ":flag_in: Suravasa",
+            "Played": 0,
+            "Won": 0
+          },
+          {
+            "ID": "JC",
+            "Nom": ":flag_au: New Junk City",
+            "Played": 0,
+            "Won": 0
+          },
+          {
+            "ID": "TO",
+            "Nom": ":name_badge: Total",
+            "Played": 0,
+            "Won": 0
+          }
+        ]
+      }
+    ]
+  }

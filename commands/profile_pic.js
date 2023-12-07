@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+const ImEmbed = require('./image_embed.js');
 module.exports = class Logger 
 {
     /**
@@ -17,7 +18,7 @@ module.exports = class Logger
         else {
             let userr = bot.users.cache.find(user => user.id === ping)
             try {
-                msg.channel.send(ImageEm.EmbedGeneric(userr.username, userr.displayAvatarURL({ dynamic: true, size: 512 }), "#00008b"))
+                msg.channel.send(ImEmbed.EmbedGeneric(userr.username, userr.displayAvatarURL({ dynamic: true, size: 512 }), "#00008b"))
             }
             catch
             {

@@ -10,6 +10,8 @@ class Map {
     }
 }
 
+const ToolBox = require('../commands/toolbox');
+
 module.exports = class Stats 
 {
 
@@ -167,8 +169,8 @@ module.exports = class Stats
                     .setTitle('Error')
                     .addFields(
                         { name: "Veuillez utiliser l'une des possibilité ci-dessous", value: '\u200B' },
-                        { name: 'stats -m <Team Initials>', value: "Renvoie les statistiques liées aux Maps" },
-                        { name: 'Initiales disponibles : ', value: "LG : Lime Green\nNB : Navy Blue\nSR : Scarlet Red" },
+                        { name: 'stats <Team Initials>', value: "Renvoie les statistiques liées aux Maps" },
+                        { name: 'Initiales disponibles : ', value: "NB : Navy Blue\nSR : Scarlet Red\nSA : Scarlet Red OAFO" },
                     )
                     .setTimestamp()
         msg.channel.send(StatsEmbed)
@@ -180,33 +182,30 @@ module.exports = class Stats
     static async MainStats(msg)
     {
         var items = msg.content.split(" ")
-        if ((items.length < 3) || (items.length > 3) || ((items[1]!="-m")))
+        if ((items.length < 2) || (items.length > 2))
         {
             Stats.Other(msg)
         }
-        else if (items[1]=="-m")
+        else
         {
-            if (items[2] == "SR")
-                Stats.SCWinrate(msg)
-            else if (items[2] == "NB")
-                Stats.NBWinrate(msg)
-            else if (items[2] == "LG")
-                Stats.LGWinrate(msg)
+            if (items[1] == "SR")
+                Stats.Winrate(msg, ToolBox.Teams.Red)
+            else if (items[1] == "NB")
+                Stats.Winrate(msg, ToolBox.Teams.Blue)
+            else if (items[1] == "SA")
+                Stats.Winrate(msg, ToolBox.Teams.RedOAFO)
             else
                 Stats.Other(msg)
         }
     }
-    
-    // ███████╗ ██████╗ █████╗ ██████╗ ██╗     ███████╗████████╗    ██████╗ ███████╗██████╗
-    // ██╔════╝██╔════╝██╔══██╗██╔══██╗██║     ██╔════╝╚══██╔══╝    ██╔══██╗██╔════╝██╔══██╗
-    // ███████╗██║     ███████║██████╔╝██║     █████╗     ██║       ██████╔╝█████╗  ██║  ██║
-    // ╚════██║██║     ██╔══██║██╔══██╗██║     ██╔══╝     ██║       ██╔══██╗██╔══╝  ██║  ██║
-    // ███████║╚██████╗██║  ██║██║  ██║███████╗███████╗   ██║       ██║  ██║███████╗██████╔╝
-    // ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝       ╚═╝  ╚═╝╚══════╝╚═════╝ 
 
-    static SCWinrate(msg)
+    static Winrate(msg, teamNB)
     {
-        var dat = fs.readFileSync("Stats/statsred.json", { encoding: 'utf-8' })
+        var obj = ToolBox.getStruct(teamNB)
+        if (obj.TeamName == "")
+            msg.channel.send(Error.WrongParameterError)
+
+        var dat = fs.readFileSync(obj.Statsfile, { encoding: 'utf-8' })
         var Mappy = JSON.parse(dat)
 
         //-------------------------------------------------------------------------------------------
@@ -228,7 +227,7 @@ module.exports = class Stats
         }
         const EscortEmbed = new Discord.MessageEmbed()
                 .setColor('#ffcc33')
-                .setTitle("__**Statistiques en Escorte de la Scarlet Red Lightning**__")
+                .setTitle("__**Statistiques en Escorte de la " + obj.TeamName + " Lightning**__")
                 .addFields(
                     { name: 'Map : ', value: Name, inline: true },
                     { name: 'Winrate : ', value: WR, inline: true },
@@ -256,7 +255,7 @@ module.exports = class Stats
         }
         const HybridEmbed = new Discord.MessageEmbed()
                 .setColor('#ff8888')
-                .setTitle("__**Statistiques en Hybride de la Scarlet Red Lightning**__")
+                .setTitle("__**Statistiques en Hybride de la " + obj.TeamName + " Lightning**__")
                 .addFields(
                     { name: 'Map : ', value: Name, inline: true },
                     { name: 'Winrate : ', value: WR, inline: true },
@@ -284,7 +283,7 @@ module.exports = class Stats
         }
         const ControlEmbed = new Discord.MessageEmbed()
                 .setColor('#33ccff')
-                .setTitle("__**Statistiques en Contrôle de la Scarlet Red Lightning**__")
+                .setTitle("__**Statistiques en Contrôle de la " + obj.TeamName + " Lightning**__")
                 .addFields(
                     { name: 'Map : ', value: Name, inline: true },
                     { name: 'Winrate : ', value: WR, inline: true },
@@ -312,160 +311,7 @@ module.exports = class Stats
         }
         const PushEmbed = new Discord.MessageEmbed()
                 .setColor('#33ff88')
-                .setTitle("__**Statistiques en Push de la Scarlet Red Lightning**__")
-                .addFields(
-                    { name: 'Map : ', value: Name, inline: true },
-                    { name: 'Winrate : ', value: WR, inline: true },
-                    { name: 'Pickrate : ', value: PR, inline: true },
-                )
-                .setTimestamp()
-        msg.channel.send(PushEmbed)
-
-        //-------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------
-
-        var Name = ""
-        var WR = ""
-        var PR = ""
-        for (let index = 0; index < Mappy.maps[4].flashpoint.length; index++) {
-            Name+=Mappy.maps[4].flashpoint[index].Nom +"\n"
-            if (Mappy.maps[4].flashpoint[index].Played == 0)
-                WR +="NO DATA \n"
-            else
-                WR +=((Mappy.maps[4].flashpoint[index].Won / Mappy.maps[4].flashpoint[index].Played)*100).toFixed(2) +"%\n"
-            if (Mappy.maps[4].flashpoint[Mappy.maps[4].flashpoint.length-1].Played == 0)
-                PR +="NO DATA \n"
-            else
-                PR +=((Mappy.maps[4].flashpoint[index].Played / Mappy.maps[4].flashpoint[Mappy.maps[4].flashpoint.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[4].flashpoint[index].Played + ")**\n"
-        }
-        const FlashpointEmbed = new Discord.MessageEmbed()
-                .setColor('#9933ff')
-                .setTitle("__**Statistiques en Flashpoint de la Scarlet Red Lightning**__")
-                .addFields(
-                    { name: 'Map : ', value: Name, inline: true },
-                    { name: 'Winrate : ', value: WR, inline: true },
-                    { name: 'Pickrate : ', value: PR, inline: true },
-                )
-                .setTimestamp()
-        msg.channel.send(FlashpointEmbed)
-    }
-
-    // ██╗     ██╗███╗   ███╗███████╗     ██████╗ ██████╗ ███████╗███████╗███╗   ██╗
-    // ██║     ██║████╗ ████║██╔════╝    ██╔════╝ ██╔══██╗██╔════╝██╔════╝████╗  ██║
-    // ██║     ██║██╔████╔██║█████╗      ██║  ███╗██████╔╝█████╗  █████╗  ██╔██╗ ██║
-    // ██║     ██║██║╚██╔╝██║██╔══╝      ██║   ██║██╔══██╗██╔══╝  ██╔══╝  ██║╚██╗██║
-    // ███████╗██║██║ ╚═╝ ██║███████╗    ╚██████╔╝██║  ██║███████╗███████╗██║ ╚████║
-    // ╚══════╝╚═╝╚═╝     ╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═══╝
-
-    static LGWinrate(msg)
-    {
-        var dat = fs.readFileSync("Stats/statsgreen.json", { encoding: 'utf-8' })
-        var Mappy = JSON.parse(dat)
-
-        //-------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------
-
-        var Name = ""
-        var WR = ""
-        var PR = ""
-        for (let index = 0; index < Mappy.maps[0].escort.length; index++) {
-            Name+=Mappy.maps[0].escort[index].Nom +"\n"
-            if (Mappy.maps[0].escort[index].Played == 0)
-                WR +="NO DATA \n"
-            else
-                WR +=((Mappy.maps[0].escort[index].Won / Mappy.maps[0].escort[index].Played)*100).toFixed(2) +"%\n"
-            if (Mappy.maps[0].escort[Mappy.maps[0].escort.length-1].Played == 0)
-                PR +="NO DATA \n"
-            else
-                PR +=((Mappy.maps[0].escort[index].Played / Mappy.maps[0].escort[Mappy.maps[0].escort.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[0].escort[index].Played + ")**\n"
-        }
-        const EscortEmbed = new Discord.MessageEmbed()
-                .setColor('#ffcc33')
-                .setTitle("__**Statistiques en Escorte de la Lime Green Lightning**__")
-                .addFields(
-                    { name: 'Map : ', value: Name, inline: true },
-                    { name: 'Winrate : ', value: WR, inline: true },
-                    { name: 'Pickrate : ', value: PR, inline: true },
-                )
-                .setTimestamp()
-        msg.channel.send(EscortEmbed)
-
-        //-------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------
-
-        var Name = ""
-        var WR = ""
-        var PR = ""
-        for (let index = 0; index < Mappy.maps[1].hybrid.length; index++) {
-            Name+=Mappy.maps[1].hybrid[index].Nom +"\n"
-            if (Mappy.maps[1].hybrid[index].Played == 0)
-                WR +="NO DATA \n"
-            else
-                WR +=((Mappy.maps[1].hybrid[index].Won / Mappy.maps[1].hybrid[index].Played)*100).toFixed(2) +"%\n"
-            if (Mappy.maps[1].hybrid[Mappy.maps[1].hybrid.length-1].Played == 0)
-                PR +="NO DATA \n"
-            else
-                PR +=((Mappy.maps[1].hybrid[index].Played / Mappy.maps[1].hybrid[Mappy.maps[1].hybrid.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[1].hybrid[index].Played + ")**\n"
-        }
-        const HybridEmbed = new Discord.MessageEmbed()
-                .setColor('#ff8888')
-                .setTitle("__**Statistiques en Hybride de la Lime Green Lightning**__")
-                .addFields(
-                    { name: 'Map : ', value: Name, inline: true },
-                    { name: 'Winrate : ', value: WR, inline: true },
-                    { name: 'Pickrate : ', value: PR, inline: true },
-                )
-                .setTimestamp()
-        msg.channel.send(HybridEmbed)
-
-        //-------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------
-
-        var Name = ""
-        var WR = ""
-        var PR = ""
-        for (let index = 0; index < Mappy.maps[2].control.length; index++) {
-            Name+=Mappy.maps[2].control[index].Nom +"\n"
-            if (Mappy.maps[2].control[index].Played == 0)
-                WR +="NO DATA \n"
-            else
-                WR +=((Mappy.maps[2].control[index].Won / Mappy.maps[2].control[index].Played)*100).toFixed(2) +"%\n"
-            if (Mappy.maps[2].control[Mappy.maps[2].control.length-1].Played == 0)
-                PR +="NO DATA \n"
-            else
-                PR +=((Mappy.maps[2].control[index].Played / Mappy.maps[2].control[Mappy.maps[2].control.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[2].control[index].Played + ")**\n"
-        }
-        const ControlEmbed = new Discord.MessageEmbed()
-                .setColor('#33ccff')
-                .setTitle("__**Statistiques en Contrôle de la Lime Green Lightning**__")
-                .addFields(
-                    { name: 'Map : ', value: Name, inline: true },
-                    { name: 'Winrate : ', value: WR, inline: true },
-                    { name: 'Pickrate : ', value: PR, inline: true },
-                )
-                .setTimestamp()
-        msg.channel.send(ControlEmbed)
-
-        //-------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------
-
-        var Name = ""
-        var WR = ""
-        var PR = ""
-        for (let index = 0; index < Mappy.maps[3].push.length; index++) {
-            Name+=Mappy.maps[3].push[index].Nom +"\n"
-            if (Mappy.maps[3].push[index].Played == 0)
-                WR +="NO DATA \n"
-            else
-                WR +=((Mappy.maps[3].push[index].Won / Mappy.maps[3].push[index].Played)*100).toFixed(2) +"%\n"
-            if (Mappy.maps[3].push[Mappy.maps[3].push.length-1].Played == 0)
-                PR +="NO DATA \n"
-            else
-                PR +=((Mappy.maps[3].push[index].Played / Mappy.maps[3].push[Mappy.maps[3].push.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[3].push[index].Played + ")**\n"
-        }
-        const PushEmbed = new Discord.MessageEmbed()
-                .setColor('#33ff88')
-                .setTitle("__**Statistiques en Push de la Lime Green Lightning**__")
+                .setTitle("__**Statistiques en Push de la " + obj.TeamName + " Lightning**__")
                 .addFields(
                     { name: 'Map : ', value: Name, inline: true },
                     { name: 'Winrate : ', value: WR, inline: true },
@@ -493,160 +339,7 @@ module.exports = class Stats
         }
         const FlashpointEmbed = new Discord.MessageEmbed()
                 .setColor('#9933ff')
-                .setTitle("__**Statistiques en Flashpoint de la Lime Green Lightning**__")
-                .addFields(
-                    { name: 'Map : ', value: Name, inline: true },
-                    { name: 'Winrate : ', value: WR, inline: true },
-                    { name: 'Pickrate : ', value: PR, inline: true },
-                )
-                .setTimestamp()
-        msg.channel.send(FlashpointEmbed)
-    }
-
-    // ███╗   ██╗ █████╗ ██╗   ██╗██╗   ██╗    ██████╗ ██╗     ██╗   ██╗███████╗
-    // ████╗  ██║██╔══██╗██║   ██║╚██╗ ██╔╝    ██╔══██╗██║     ██║   ██║██╔════╝
-    // ██╔██╗ ██║███████║██║   ██║ ╚████╔╝     ██████╔╝██║     ██║   ██║█████╗  
-    // ██║╚██╗██║██╔══██║╚██╗ ██╔╝  ╚██╔╝      ██╔══██╗██║     ██║   ██║██╔══╝  
-    // ██║ ╚████║██║  ██║ ╚████╔╝    ██║       ██████╔╝███████╗╚██████╔╝███████╗
-    // ╚═╝  ╚═══╝╚═╝  ╚═╝  ╚═══╝     ╚═╝       ╚═════╝ ╚══════╝ ╚═════╝ ╚══════╝
-
-    static NBWinrate(msg)
-    {
-        var dat = fs.readFileSync("Stats/statsblue.json", { encoding: 'utf-8' })
-        var Mappy = JSON.parse(dat)
-
-        //-------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------
-
-        var Name = ""
-        var WR = ""
-        var PR = ""
-        for (let index = 0; index < Mappy.maps[0].escort.length; index++) {
-            Name+=Mappy.maps[0].escort[index].Nom +"\n"
-            if (Mappy.maps[0].escort[index].Played == 0)
-                WR +="NO DATA \n"
-            else
-                WR +=((Mappy.maps[0].escort[index].Won / Mappy.maps[0].escort[index].Played)*100).toFixed(2) +"%\n"
-            if (Mappy.maps[0].escort[Mappy.maps[0].escort.length-1].Played == 0)
-                PR +="NO DATA \n"
-            else
-                PR +=((Mappy.maps[0].escort[index].Played / Mappy.maps[0].escort[Mappy.maps[0].escort.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[0].escort[index].Played + ")**\n"
-        }
-        const EscortEmbed = new Discord.MessageEmbed()
-                .setColor('#ffcc33')
-                .setTitle("__**Statistiques en Escorte de la Navy Blue Lightning**__")
-                .addFields(
-                    { name: 'Map : ', value: Name, inline: true },
-                    { name: 'Winrate : ', value: WR, inline: true },
-                    { name: 'Pickrate : ', value: PR, inline: true },
-                )
-                .setTimestamp()
-        msg.channel.send(EscortEmbed)
-
-        //-------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------
-
-        var Name = ""
-        var WR = ""
-        var PR = ""
-        for (let index = 0; index < Mappy.maps[1].hybrid.length; index++) {
-            Name+=Mappy.maps[1].hybrid[index].Nom +"\n"
-            if (Mappy.maps[1].hybrid[index].Played == 0)
-                WR +="NO DATA \n"
-            else
-                WR +=((Mappy.maps[1].hybrid[index].Won / Mappy.maps[1].hybrid[index].Played)*100).toFixed(2) +"%\n"
-            if (Mappy.maps[1].hybrid[Mappy.maps[1].hybrid.length-1].Played == 0)
-                PR +="NO DATA \n"
-            else
-                PR +=((Mappy.maps[1].hybrid[index].Played / Mappy.maps[1].hybrid[Mappy.maps[1].hybrid.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[1].hybrid[index].Played + ")**\n"
-        }
-        const HybridEmbed = new Discord.MessageEmbed()
-                .setColor('#ff8888')
-                .setTitle("__**Statistiques en Hybride de la Navy Blue Lightning**__")
-                .addFields(
-                    { name: 'Map : ', value: Name, inline: true },
-                    { name: 'Winrate : ', value: WR, inline: true },
-                    { name: 'Pickrate : ', value: PR, inline: true },
-                )
-                .setTimestamp()
-        msg.channel.send(HybridEmbed)
-
-        //-------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------
-
-        var Name = ""
-        var WR = ""
-        var PR = ""
-        for (let index = 0; index < Mappy.maps[2].control.length; index++) {
-            Name+=Mappy.maps[2].control[index].Nom +"\n"
-            if (Mappy.maps[2].control[index].Played == 0)
-                WR +="NO DATA \n"
-            else
-                WR +=((Mappy.maps[2].control[index].Won / Mappy.maps[2].control[index].Played)*100).toFixed(2) +"%\n"
-            if (Mappy.maps[2].control[Mappy.maps[2].control.length-1].Played == 0)
-                PR +="NO DATA \n"
-            else
-                PR +=((Mappy.maps[2].control[index].Played / Mappy.maps[2].control[Mappy.maps[2].control.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[2].control[index].Played + ")**\n"
-        }
-        const ControlEmbed = new Discord.MessageEmbed()
-                .setColor('#33ccff')
-                .setTitle("__**Statistiques en Contrôle de la Navy Blue Lightning**__")
-                .addFields(
-                    { name: 'Map : ', value: Name, inline: true },
-                    { name: 'Winrate : ', value: WR, inline: true },
-                    { name: 'Pickrate : ', value: PR, inline: true },
-                )
-                .setTimestamp()
-        msg.channel.send(ControlEmbed)
-
-        //-------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------
-
-        var Name = ""
-        var WR = ""
-        var PR = ""
-        for (let index = 0; index < Mappy.maps[3].push.length; index++) {
-            Name+=Mappy.maps[3].push[index].Nom +"\n"
-            if (Mappy.maps[3].push[index].Played == 0)
-                WR +="NO DATA \n"
-            else
-                WR +=((Mappy.maps[3].push[index].Won / Mappy.maps[3].push[index].Played)*100).toFixed(2) +"%\n"
-            if (Mappy.maps[3].push[Mappy.maps[3].push.length-1].Played == 0)
-                PR +="NO DATA \n"
-            else
-                PR +=((Mappy.maps[3].push[index].Played / Mappy.maps[3].push[Mappy.maps[3].push.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[3].push[index].Played + ")**\n"
-        }
-        const PushEmbed = new Discord.MessageEmbed()
-                .setColor('#33ff88')
-                .setTitle("__**Statistiques en Push de la Navy Blue Lightning**__")
-                .addFields(
-                    { name: 'Map : ', value: Name, inline: true },
-                    { name: 'Winrate : ', value: WR, inline: true },
-                    { name: 'Pickrate : ', value: PR, inline: true },
-                )
-                .setTimestamp()
-        msg.channel.send(PushEmbed)
-
-                //-------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------
-
-        var Name = ""
-        var WR = ""
-        var PR = ""
-        for (let index = 0; index < Mappy.maps[4].flashpoint.length; index++) {
-            Name+=Mappy.maps[4].flashpoint[index].Nom +"\n"
-            if (Mappy.maps[4].flashpoint[index].Played == 0)
-                WR +="NO DATA \n"
-            else
-                WR +=((Mappy.maps[4].flashpoint[index].Won / Mappy.maps[4].flashpoint[index].Played)*100).toFixed(2) +"%\n"
-            if (Mappy.maps[4].flashpoint[Mappy.maps[4].flashpoint.length-1].Played == 0)
-                PR +="NO DATA \n"
-            else
-                PR +=((Mappy.maps[4].flashpoint[index].Played / Mappy.maps[4].flashpoint[Mappy.maps[4].flashpoint.length-1].Played)*100).toPrecision(3) + "% **(" + Mappy.maps[4].flashpoint[index].Played + ")**\n"
-        }
-        const FlashpointEmbed = new Discord.MessageEmbed()
-                .setColor('#9933ff')
-                .setTitle("__**Statistiques en Flashpoint de la Navy Blue Lightning**__")
+                .setTitle("__**Statistiques en Flashpoint de la " + obj.TeamName + " Lightning**__")
                 .addFields(
                     { name: 'Map : ', value: Name, inline: true },
                     { name: 'Winrate : ', value: WR, inline: true },

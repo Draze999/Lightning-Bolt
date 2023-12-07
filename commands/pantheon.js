@@ -174,15 +174,17 @@ module.exports = class Pantheon
     */
     static async UpdateSuccess(msg, bot)
     {
-        var idd = '1115033554901012672'
-        if (msg.channel.id == "1100948020494860369") {
-            idd = '1115016923944599634'
+        // msg.channel.id = ID du channel pour savoir quelle team
+        // idd = ID du message de panthéon de la team
+        var idd = ''
+        if (msg.channel.id == "1157966534451408906") { //RED LIGHTNING
+            idd = ''
         }
-        if (msg.channel.id == "1100947999577886810") {
-            idd = '1115016892546039808'
+        if (msg.channel.id == "1157966611634987068") { // GREEN LIGHTNING
+            idd = ''
         }
-        if (msg.channel.id == "1100947952836558848") {
-            idd = '1115016854843445279'
+        if (msg.channel.id == "") { //TBD
+            idd = ''
         }
         var newmsg = await msg.channel.messages.fetch(idd)
         const ResEmbed = new Discord.MessageEmbed(newmsg.embeds[0])
