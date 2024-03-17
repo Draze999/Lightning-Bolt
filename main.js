@@ -76,6 +76,13 @@ bot.on('message', function (msg) {
                 Pantheon.UpdateSuccess(msg, bot)
         }
 
+        else if (msg.content.startsWith(Prefix + 'date')) {
+            if (msg.author.id != "221330215714947072")
+                msg.author.send("You are not authorized to use this command. Please contact `||DRͥΔZͣEͫ_999||#5158`.")
+            else
+                Pantheon.UpdateDate(msg, bot)
+        }
+
         else {
             msg.content = msg.content.toLowerCase()
             // if (msg.content === Prefix + 'navyblue') {
@@ -97,6 +104,33 @@ bot.on('message', function (msg) {
             // else if (msg.content === Prefix + 'reseaux') {
             //     Pantheon.Reseaux(msg, bot)
             // }
+            if (msg.content === Prefix + 'reload') {
+                if (msg.author.id != "221330215714947072")
+                    msg.author.send("You are not authorized to use this command. Please contact `||DRͥΔZͣEͫ_999||#5158`.")
+                else {
+                    try {
+                        process.exit(11)
+                        msg.author.send('Le script a été rechargé avec succès.');
+                    } catch (err) {
+                        console.error('Une erreur est survenue lors du rechargement du script :', err);
+                        msg.author.send('Une erreur est survenue lors du rechargement du script.');
+                    }
+                }
+            }
+
+            
+            else if (msg.content === Prefix + 'undo') {
+                if (msg.author.id != "221330215714947072")
+                    msg.author.send("You are not authorized to use this command. Please contact `||DRͥΔZͣEͫ_999||#5158`.")
+                else {
+                    process.exit(42)
+                }
+            }
+
+            else if (msg.content === Prefix + "abc") {
+                msg.author.send("Test Phase 1")
+            }
+
             
             // ██╗  ██╗███████╗██╗     ██████╗ 
             // ██║  ██║██╔════╝██║     ██╔══██╗
@@ -105,7 +139,7 @@ bot.on('message', function (msg) {
             // ██║  ██║███████╗███████╗██║     
             // ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  
 
-            if ((msg.content === Prefix + 'help') | (msg.content === Prefix + 'h')) {
+            else if ((msg.content === Prefix + 'help') | (msg.content === Prefix + 'h')) {
                 const HelpEmbed = new Discord.MessageEmbed()
                     .setColor('#008E00')
                     .setTitle('Commands List')
@@ -119,8 +153,9 @@ bot.on('message', function (msg) {
                         { name: Prefix + 'pp <mention>', value: 'Renvoie la photo de profil de la personne mentionnée' },
                         { name: Prefix + 'suggestion <sugg>', value: 'Permet de faire une suggestion pour améliorer le bot' },
                         { name: Prefix + 'dr <pourcentage>', value: 'Renvoie le pourcentage de vie supplémentaire équivalente au pourcentage de DR choisi.' },
-                        { name: Prefix + 'stats <-w / -p> <Team Initials>', value: 'Renvoie nos stats de scrims ET tournois en fonction des maps.' },
+                        { name: Prefix + 'stats <Team Initials>', value: 'Renvoie nos stats de scrims ET tournois en fonction des maps.' },
                         { name: Prefix + 'up <place> <texte>', value: "Rajoute le score dans le Panthéon d'une équipe" },
+                        { name: Prefix + 'date <jour> <mois> <année>', value: "Change la date du dernier record ajouté" },
                         { name: '\u200B', value: 'Presques toutes les commandes sont réductibles à leur(s) initiale(s).' },
                     )
                     .setTimestamp()
@@ -240,6 +275,14 @@ bot.on('message', function (msg) {
             }
         }
 
+    }
+    else {
+        if (msg.guild == null) {
+            var currentdate = new Date();
+            const logg = ("[" + Logger.formatter(currentdate.getHours()) + "h" + Logger.formatter(currentdate.getMinutes()) + "mn" + Logger.formatter(currentdate.getSeconds()) + "s" + "] " + "[Private Message] @" + msg.author.username + " : " + msg.content)
+            console.log(logg)
+            fs.appendFile('./logs/' + currentdate.getDate() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getFullYear() + ".log", logg + "\n", (err) => { if (err) throw err; })
+        }
     }
 
 });

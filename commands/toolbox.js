@@ -25,12 +25,12 @@ module.exports = class ToolBox {
             case 1:    // Red Lightning
                 obj.TeamName = "Red Lightning"
                 obj.Statsfile = 'Stats/statsred.json'
-                obj.Elo = "2k6"
+                obj.Elo = "3k0"
                 return obj
             case 2:    // Red Lightning OAFO
                 obj.TeamName = "Red Lightning OAFO"
                 obj.Statsfile = 'Stats/statsredOAFO.json'
-                obj.Elo = "2k6"
+                obj.Elo = "3k0"
                 return obj
             case 3:    // Navy Blue Lightning
                 obj.TeamName = "Navy Blue"
